@@ -5,15 +5,16 @@
 #include <QFile>
 #include <QDebug>
 #include <QList>
-
 #include "mythread.h"
 #include "datamodel.h"
+#include "language.h"
 
 
 int main(int argc, char *argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QGuiApplication app(argc, argv);
+    Language myLanguage;
     DataModel *model = new DataModel();
     DataModel *model2 = new DataModel();
     DataModel *model3 = new DataModel();
@@ -58,7 +59,6 @@ int main(int argc, char *argv[])
     }
     MyThread myThread2(a2, b2);
     myThread2.start();
-    //
     i = 0;
     QDir d3("C:\\Users\\phamthinga\\Pictures\\QT\\Idol");
     QFileInfoList list3 = d3.entryInfoList();
@@ -81,7 +81,6 @@ int main(int argc, char *argv[])
     }
     MyThread myThread3(a3, b3);
     myThread3.start();
-    //
     i = 0;
     QDir d4("C:\\Users\\phamthinga\\Pictures\\QT\\Film");
     QFileInfoList list4 = d4.entryInfoList();
@@ -103,7 +102,6 @@ int main(int argc, char *argv[])
         b4.append(j);
     }
     MyThread myThread4(a4, b4);    myThread4.start();
-    //
     for(int k =0;k<a.size();k++){
         Photo photo;
         photo.setName(a.at(k));
@@ -115,6 +113,7 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("DataModel2",model2);
     engine.rootContext()->setContextProperty("DataModel3",model3);
     engine.rootContext()->setContextProperty("DataModel4",model4);
+    engine.rootContext()->setContextProperty("language",(QObject*)&myLanguage);
     if (engine.rootObjects().isEmpty())
         return -1;
     return app.exec();

@@ -1,17 +1,36 @@
 import QtQuick 2.9
-import QtQuick.Window 2.3
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
-Window {
+import QtQuick.Controls 1.2
+import QtQuick.Window 2.1
+ApplicationWindow  {
     id: window
     visible: true
     width: 640
     height: 480
-    title: qsTr("Media Player")
+    title: qsTr("Photo Library") + language.emptyString
+    menuBar:MenuBar {
+    Menu {
+        visible: true
+        title: qsTr("Language") + language.emptyString
+        MenuItem {
+            text: "English"
+            onTriggered: language.selectLanguage("en")
+        }
+        MenuItem {
+            text: "Français"
+            onTriggered: language.selectLanguage("fr")
+        }
+        MenuItem {
+            text: "Tiếng Việt"
+            onTriggered: language.selectLanguage("vi")
+        }
+     }
+    }
     Text {
         id: txt_Main
         color: "green"
-        text: qsTr("Media Player")
+        text: qsTr("Photo Library") + language.emptyString
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 440
         font.bold: true
@@ -26,28 +45,38 @@ Window {
         anchors.topMargin: 15
         font.pixelSize: 20
     }
-
-
-
     Button {
         id: btn_exit
+        visible: true
         x: 555
         y: 446
         width: 65
         height: 22
-        text: qsTr("Exit")
+        text: qsTr("Exit") +language.emptyString
         anchors.right: parent.right
         anchors.rightMargin: 20
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 12
         onClicked: {
-            if(text != "Exit"){
-                image.visible = false
-                frame.update()
-                text = "Exit"
-            } else {
-                hide();
-            }
+            hide();
+        }
+    }
+    Button {
+        id: btn_back
+        visible: false
+        x: 555
+        y: 446
+        width: 65
+        height: 22
+        text: qsTr("Back") +language.emptyString
+        anchors.right: parent.right
+        anchors.rightMargin: 20
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: 12
+        onClicked: {
+            btn_back.visible = false
+            image.visible = false
+            btn_exit.visible = true
         }
     }
 
@@ -63,7 +92,7 @@ Window {
         anchors.topMargin: 46
 
         ListView {
-            id: lv1
+            id: list_view
             visible: true
             anchors.right: parent.right
             anchors.rightMargin: 0
@@ -88,16 +117,17 @@ Window {
                     MouseArea{
                         anchors.fill: parent
                         onClicked: {
-                            btn_exit.text = "Back"
+                            btn_exit.visible=false
+                            btn_back.visible=true
                             image.visible = true
-                            if(txt_Main.text == "Media Player" || txt_Main.text == "Photo For Game") {
-                                image.source = "file:///C:/Users/phamthinga/Pictures/QT/Game/"+model.namefile
-                            } else if(txt_Main.text == "Photo For Cooking") {
+                            if(txt_Main.text == btn_film.text){
+                                image.source = "file:///C:/Users/phamthinga/Pictures/QT/Film/"+model.namefile
+                            } else if(txt_Main.text == btn_food.text) {
                                 image.source = "file:///C:/Users/phamthinga/Pictures/QT/Cook/"+model.namefile
-                            } else if(txt_Main.text == "Photo For Idol") {
+                            } else if(txt_Main.text == btn_idol.text){
                                 image.source = "file:///C:/Users/phamthinga/Pictures/QT/Idol/"+model.namefile
                             } else {
-                                image.source = "file:///C:/Users/phamthinga/Pictures/QT/Film/"+model.namefile
+                                image.source = "file:///C:/Users/phamthinga/Pictures/QT/Game/"+model.namefile
                             }
                         }
                     }
@@ -118,66 +148,66 @@ Window {
         anchors.topMargin: 46
     }
     Button {
-        id: btn_cook
+        id: btn_food
         y: 65
         width: 90
         height: 40
-        text: qsTr("Photo Cook")
+        text: qsTr("Foods") + language.emptyString
         anchors.left: parent.left
         anchors.leftMargin: 38
         onClicked: {
-            txt_Main.text = "Photo For Cooking"
-            lv1.model = DataModel2
-            lv1.update()
+            txt_Main.text = btn_food.text
+            list_view.model = DataModel2
+            list_view.update()
             image.visible=false
         }
     }
 
     Button {
-        id: btn_music
+        id: btn_idol
         y: 168
         width: 90
         height: 40
-        text: qsTr("Photo Idol")
+        text: qsTr("Idol") + language.emptyString
         anchors.left: parent.left
         anchors.leftMargin: 38
         onClicked: {
-            txt_Main.text = "Photo For Idol "
-            lv1.model = DataModel3
-            lv1.update()
+            txt_Main.text = btn_idol.text
+            list_view.model = DataModel3
+            list_view.update()
             image.visible=false
         }
     }
 
     Button {
-        id: btn_Film
+        id: btn_film
         y: 272
         width: 90
         height: 40
-        text: qsTr("Photo Film")
+        text: qsTr("Film") + language.emptyString
         transformOrigin: Item.Center
         anchors.left: parent.left
         anchors.leftMargin: 38
         onClicked: {
-            txt_Main.text = "Photo For Film"
-            lv1.model = DataModel4
-            lv1.update()
+            txt_Main.text = btn_film.text
+            list_view.model = DataModel4
+            list_view.update()
             image.visible=false
         }
     }
 
     Button {
-        id: btn_Game
+        id: btn_game
         y: 375
         width: 90
         height: 40
-        text: qsTr("Photo Game")
+        text: qsTr("Game") + language.emptyString
         anchors.left: parent.left
         anchors.leftMargin: 38
         onClicked: {
-            txt_Main.text = "Photo For Game"
-            lv1.model = DataModel
-            lv1.update()
+            txt_Main.text =btn_game.text
+            list_view.model = DataModel
+            list_view.update()
             image.visible=false
         }
     }

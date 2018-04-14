@@ -17,7 +17,8 @@ SOURCES += main.cpp \
     mythread.cpp \
     photo.cpp
 
-RESOURCES += qml.qrc
+RESOURCES += qml.qrc \
+    languages.qrc
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =
@@ -33,4 +34,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     datamodel.h \
     mythread.h \
-    photo.h
+    photo.h \
+    language.h
